@@ -1,7 +1,19 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ProvideAuth } from '../lib/auth';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <ProvideAuth>
+      <Component {...pageProps} />
+    </ProvideAuth>
+  );
 }
 
-export default MyApp
+MyApp.propTypes = {
+  Component: PropTypes.func.isRequired,
+  pageProps: PropTypes.object,
+};
+
+export default MyApp;
