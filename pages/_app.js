@@ -1,19 +1,37 @@
-import '../styles/globals.css';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ProvideAuth } from '../lib/auth';
+import { AuthProvider } from '@/lib/auth';
+import { ChakraProvider } from '@chakra-ui/react';
+import customTheme from '@/styles/theme';
+import { css, Global } from '@emotion/react';
 
-function MyApp({ Component, pageProps }) {
+const App = ({ Component, pageProps }) => {
   return (
-    <ProvideAuth>
-      <Component {...pageProps} />
-    </ProvideAuth>
+    <ChakraProvider theme={customTheme}>
+      <AuthProvider>
+        <Global
+          styles={css`
+            html {
+              min-width: '360px';
+              scroll-behavior: 'smooth';
+            }
+            ,
+            #__next {
+              display: flex;
+              flex-direction: column;
+              min-height: 100vh;
+            }
+          `}
+        />
+        <Component {...pageProps} />
+      </AuthProvider>
+    </ChakraProvider>
   );
-}
+};
 
-MyApp.propTypes = {
+App.propTypes = {
   Component: PropTypes.func.isRequired,
   pageProps: PropTypes.object,
 };
 
-export default MyApp;
+export default App;
